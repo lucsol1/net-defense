@@ -1,0 +1,105 @@
+[gd_scene load_steps=5 format=3 uid="uid://btcd02ux1lvgx"]
+
+[ext_resource type="Script" uid="uid://c8xj2ol1knx5k" path="res://scripts/menu.gd" id="1_vjb58"]
+[ext_resource type="Texture2D" uid="uid://bbc4fh7c7ykkm" path="res://assets/background.png" id="1_yqeox"]
+
+[sub_resource type="Theme" id="Theme_yqeox"]
+
+[sub_resource type="Theme" id="Theme_vjb58"]
+
+[node name="menu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_vjb58")
+
+[node name="principal" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="background" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_yqeox")
+expand_mode = 3
+stretch_mode = 6
+
+[node name="buttons" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = 1.0
+offset_top = -22.0
+offset_right = 1.0
+offset_bottom = 166.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_yqeox")
+
+[node name="search_game" type="Button" parent="buttons"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme = SubResource("Theme_vjb58")
+theme_override_font_sizes/font_size = 26
+text = "Iniciar Partida"
+
+[node name="view_cards" type="Button" parent="buttons"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 26
+text = "Cartas"
+
+[node name="credits" type="Button" parent="buttons"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 26
+text = "Creditos"
+
+[node name="exiit" type="Button" parent="buttons"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 26
+text = "Sair"
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -575.5
+offset_right = 575.5
+offset_bottom = 98.0
+grow_horizontal = 2
+
+[node name="Label" type="Label" parent="TextureRect"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.77000004
+anchor_right = 0.5
+anchor_bottom = 0.77000004
+offset_left = -161.0
+offset_top = -6.4600067
+offset_right = 158.0
+offset_bottom = 70.53999
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 56
+text = "NetDefense"
+
+[connection signal="pressed" from="buttons/search_game" to="." method="_on_search_game_pressed"]
+[connection signal="pressed" from="buttons/exiit" to="." method="_on_exiit_pressed"]
