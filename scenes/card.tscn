@@ -1,18 +1,24 @@
 [gd_scene load_steps=3 format=3 uid="uid://bs2umy0c6x0da"]
 
-[ext_resource type="Texture2D" uid="uid://2pps5dfcgiu2" path="res://assets/cart1.png" id="1_l72q7"]
+[ext_resource type="Script" uid="uid://bv4mu3f36yyqc" path="res://scripts/card.gd" id="1_d81rb"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_djfn2"]
 size = Vector2(92, 152)
 
 [node name="Card" type="Node2D"]
+position = Vector2(47, 78)
+script = ExtResource("1_d81rb")
 
 [node name="CardImage" type="Sprite2D" parent="."]
 position = Vector2(1.1920929e-07, 0)
 scale = Vector2(0.09057617, 0.100423165)
-texture = ExtResource("1_l72q7")
+
+[node name="Label" type="Label" parent="."]
+offset_right = 40.0
+offset_bottom = 23.0
 
 [node name="Area2D" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(-1, -1)
 shape = SubResource("RectangleShape2D_djfn2")

@@ -28,15 +28,3 @@ func remove_card(card_id: int) -> void:
 
 func has_card(card_id: int) -> bool:
 	return card_id in hand
-
-func play_card(card_id: int) -> bool:
-	if not can_play:
-		return false
-	if not has_card(card_id):
-		return false
-	
-	# aplica o efeito da carta
-	CardDatabase.apply_effect(card_id, self)
-	
-	remove_card(card_id)
-	return true

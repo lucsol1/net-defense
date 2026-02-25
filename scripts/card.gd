@@ -1,14 +1,20 @@
-extends Control
+extends Node2D
 class_name Card
+
+signal card_played(card_id)
 
 var card_id: int
 var original_position: Vector2
 var dragging := false
 
-@onready var image: TextureRect = $TextureRect
 @onready var label: Label = $Label
+@onready var card_image: Sprite2D = $CardImage
+@onready var area: Area2D = $Area2D
 
-func _gui_input(event: InputEvent) -> void:
+func _ready() -> void:
+	area.input_event.connect(_on_area_input)
+
+func _on_area_input(_viewport, event, _shape_idx) -> void:
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
 		if event.pressed:
 			dragging = true
@@ -19,27 +25,23 @@ func _gui_input(event: InputEvent) -> void:
 			z_index = 0
 			_check_drop()
 
-	elif event is InputEventMouseMotion and dragging:
-		global_position += event.relative
-		
+func _process(_delta: float) -> void:
+	if dragging:
+		global_position = get_global_mouse_position()
+
 func setup(_card_id: int) -> void:
 	card_id = _card_id
 	var data = CardDatabase.get_card(card_id)
-	
-	label.text = data.name
-	image.texture = load(data.sprite)
-	
+	label.text = data.get("name", "???")
+	if data.get("sprite", "") != "":
+		card_image.texture = load(data["sprite"])
+
 func _check_drop() -> void:
-	var play_area = get_tree().get_first_node_in_group("play_area")
-
-	if play_area == null:
-		# não achou área de jogo (volta)
-		global_position = original_position
-		return
-
-	if play_area.get_global_rect().has_point(get_global_mouse_position()):
-		emit_signal("card_played", card_id)
-		queue_free()
-	else:
-		# drop inválido (volta pra posição original)
-		global_position = original_position
+	var overlapping = area.get_overlapping_areas()
+	for other_area in overlapping:
+		if other_area.is_in_group("play_area"):
+			emit_signal("card_played", card_id)
+			return
+			
+	# Se não soltou em cima de nenhuma area do jogo ela volta pra m
+	global_position = original_position
