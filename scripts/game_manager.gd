@@ -49,13 +49,11 @@ func _packet_phase() -> void:
 	packets_processed.emit(current_player(), packets)
 	_check_game_over()
 
-	# Passa automaticamente para a fase principal
 	_main_phase()
 
 func _main_phase() -> void:
 	current_phase = Phase.MAIN
 	phase_changed.emit(current_phase)
-	# chamar end_turn() quando ele terminar
 
 func end_turn() -> void:
 	if current_phase != Phase.MAIN:

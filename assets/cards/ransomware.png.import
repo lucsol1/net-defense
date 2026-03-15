@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://2pps5dfcgiu2"
-path="res://.godot/imported/roteador.png-ab2c2f027fd5ddcc2a03c1df6549cb99.ctex"
+uid="uid://r4ufsbfxb8rn"
+path="res://.godot/imported/ransomware.png-195cc861d72493740231a685bce8efc5.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/cards/roteador.png"
-dest_files=["res://.godot/imported/roteador.png-ab2c2f027fd5ddcc2a03c1df6549cb99.ctex"]
+source_file="res://assets/cards/ransomware.png"
+dest_files=["res://.godot/imported/ransomware.png-195cc861d72493740231a685bce8efc5.ctex"]
 
 [params]
 

@@ -7,4 +7,4 @@ func _on_search_game_pressed() -> void:
 
 func _on_exiit_pressed() -> void:
 	get_tree().quit()
-	pass # Replace with function body.
+	pass 
