@@ -1,0 +1,51 @@
+[gd_scene load_steps=3 format=3 uid="uid://bb55lb2of8hyx"]
+
+[ext_resource type="Script" uid="uid://wtremq0i36te" path="res://scripts/game.gd" id="1_uwrxv"]
+[ext_resource type="PackedScene" uid="uid://cm1yako5nvj3a" path="res://scenes/field.tscn" id="2_yqjtg"]
+
+[node name="game" type="Node2D"]
+script = ExtResource("1_uwrxv")
+
+[node name="hand1" type="Node2D" parent="."]
+position = Vector2(260, 140)
+
+[node name="hand2" type="Node2D" parent="."]
+position = Vector2(260, 880)
+
+[node name="pass_turn" type="Button" parent="."]
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 1840.0
+offset_top = 510.0
+offset_right = 1950.0
+offset_bottom = 541.0
+grow_horizontal = 2
+grow_vertical = 0
+scale = Vector2(0.67594284, 1.5609633)
+size_flags_horizontal = 0
+size_flags_vertical = 8
+text = "Passar Turno"
+
+[node name="panel_transition" type="ColorRect" parent="."]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="label" type="Label" parent="panel_transition"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+text = "Passe o controle para Jogador"
+
+[node name="pass_ready" type="Button" parent="panel_transition"]
+layout_mode = 0
+offset_right = 8.0
+offset_bottom = 8.0
+text = "Estou Pronto"
+
+[node name="field1" parent="." instance=ExtResource("2_yqjtg")]
+position = Vector2(960, 370)
+
+[node name="field2" parent="." instance=ExtResource("2_yqjtg")]
+position = Vector2(960, 650)
