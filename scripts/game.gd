@@ -1,7 +1,8 @@
 extends Node2D
 
 const CARD_SCENE = preload("res://scenes/card.tscn")
-
+@onready var hud1: ServerHUD = $server1/ServerHud
+@onready var hud2: ServerHUD = $server2/ServerHud
 @onready var panel = $panel_transition
 @onready var panel_label = $panel_transition/label
 @onready var pass_button = $pass_turn
@@ -12,6 +13,8 @@ func _ready() -> void:
 	var p2 = Player.new(1, "Player 2")
 	var s1 = Server.new()
 	var s2 = Server.new()
+	hud1.server = s1
+	hud2.server = s2
 	s1.hp = 1000
 	s2.hp = 1000
 	$field1.owner_id = 0

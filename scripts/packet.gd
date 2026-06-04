@@ -1,7 +1,42 @@
-extends Node
-
+extends Resource
 class_name Packet
-var type
-var is_malicious
-var throughput_value
-var damage
+
+enum PacketType {
+	DATA,
+	VIDEO,
+	VOICE,
+	MALWARE,
+	DDOS
+}
+
+var type: PacketType
+
+var is_malicious: bool = false
+
+# throughput gerado ao concluir
+var throughput_value: int = 0
+
+# dano causado ao concluir
+var damage: int = 0
+
+# tempo necessário para processar
+var process_time: float = 1.0
+
+# contador regressivo
+var remaining_time: float = 1.0
+
+
+func setup(
+	p_type: PacketType,
+	p_throughput: int,
+	p_damage: int,
+	p_time: float,
+	p_malicious: bool
+) -> void:
+
+	type = p_type
+	throughput_value = p_throughput
+	damage = p_damage
+	process_time = p_time
+	remaining_time = p_time
+	is_malicious = p_malicious

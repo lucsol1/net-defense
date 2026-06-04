@@ -1,51 +1,64 @@
-[gd_scene load_steps=3 format=3 uid="uid://bb55lb2of8hyx"]
+[gd_scene format=3 uid="uid://bb55lb2of8hyx"]
 
 [ext_resource type="Script" uid="uid://wtremq0i36te" path="res://scripts/game.gd" id="1_uwrxv"]
 [ext_resource type="PackedScene" uid="uid://cm1yako5nvj3a" path="res://scenes/field.tscn" id="2_yqjtg"]
+[ext_resource type="Texture2D" uid="uid://b2p5a4mvsi1j5" path="res://assets/server/server.png" id="3_lnu2h"]
+[ext_resource type="PackedScene" uid="uid://s13amvg61qu4" path="res://scenes/ServerHUD.tscn" id="4_lbhrr"]
 
-[node name="game" type="Node2D"]
+[node name="game" type="Node2D" unique_id=185718032]
 script = ExtResource("1_uwrxv")
 
-[node name="hand1" type="Node2D" parent="."]
+[node name="hand1" type="Node2D" parent="." unique_id=2055721833]
 position = Vector2(260, 140)
 
-[node name="hand2" type="Node2D" parent="."]
+[node name="hand2" type="Node2D" parent="." unique_id=1084524473]
 position = Vector2(260, 880)
 
-[node name="pass_turn" type="Button" parent="."]
-anchors_preset = 12
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
+[node name="pass_turn" type="Button" parent="." unique_id=1470517049]
 offset_left = 1840.0
 offset_top = 510.0
 offset_right = 1950.0
 offset_bottom = 541.0
-grow_horizontal = 2
-grow_vertical = 0
 scale = Vector2(0.67594284, 1.5609633)
 size_flags_horizontal = 0
 size_flags_vertical = 8
 text = "Passar Turno"
 
-[node name="panel_transition" type="ColorRect" parent="."]
+[node name="panel_transition" type="ColorRect" parent="." unique_id=1980447913]
 offset_right = 40.0
 offset_bottom = 40.0
 
-[node name="label" type="Label" parent="panel_transition"]
+[node name="label" type="Label" parent="panel_transition" unique_id=186822378]
 layout_mode = 0
-offset_right = 40.0
+offset_left = 870.0
+offset_right = 1100.0
 offset_bottom = 23.0
 text = "Passe o controle para Jogador"
 
-[node name="pass_ready" type="Button" parent="panel_transition"]
+[node name="pass_ready" type="Button" parent="panel_transition" unique_id=1490085801]
 layout_mode = 0
-offset_right = 8.0
-offset_bottom = 8.0
+offset_left = 926.0
+offset_top = 62.0
+offset_right = 1034.0
+offset_bottom = 93.0
 text = "Estou Pronto"
 
-[node name="field1" parent="." instance=ExtResource("2_yqjtg")]
+[node name="field1" parent="." unique_id=1215320527 instance=ExtResource("2_yqjtg")]
 position = Vector2(960, 370)
 
-[node name="field2" parent="." instance=ExtResource("2_yqjtg")]
+[node name="field2" parent="." unique_id=1542589135 instance=ExtResource("2_yqjtg")]
 position = Vector2(960, 650)
+
+[node name="server1" type="Sprite2D" parent="." unique_id=1798836004]
+position = Vector2(1345, 330)
+scale = Vector2(0.19812076, 0.25993824)
+texture = ExtResource("3_lnu2h")
+
+[node name="ServerHud" parent="server1" unique_id=294580037 instance=ExtResource("4_lbhrr")]
+
+[node name="server2" type="Sprite2D" parent="." unique_id=611899607]
+position = Vector2(1345, 680)
+scale = Vector2(0.21928097, 0.25818756)
+texture = ExtResource("3_lnu2h")
+
+[node name="ServerHud" parent="server2" unique_id=722270839 instance=ExtResource("4_lbhrr")]
