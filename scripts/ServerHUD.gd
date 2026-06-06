@@ -67,7 +67,12 @@ func _draw() -> void:
 		min(float(status["processed_packets"]) / 20.0, 1.0),
 		Color(0.2, 1.0, 0.5), Color(0.05, 0.25, 0.1),
 		"Processados: %d" % status["processed_packets"])
-
+	
+	_draw_bar(origin + Vector2(0, row * 4),
+		min(float(status["processing_power"]) / 10.0, 1.0),
+		Color(1.0, 0.85, 0.1), Color(0.25, 0.2, 0.0),
+		"Capacidade: %d" % status["processing_power"])
+		
 	if status["firewall"] > 0:
 		_draw_bar(origin + Vector2(0, row * 3),
 			min(float(status["firewall"]) / 5.0, 1.0),
@@ -105,7 +110,7 @@ func _draw_buffer_slots(status: Dictionary) -> void:
 		var pos = start + Vector2(i * (slot_w + gap), 0)
 		var rect = Rect2(pos, Vector2(slot_w, slot_h))
 
-		draw_rect(rect, Color(0.08, 0.08, 0.12), true, 0.0)
+		draw_rect(rect, Color(0.08, 0.08, 0.12), true)
 		draw_rect(rect, Color(0.3, 0.3, 0.4, 0.5), false, 1.5)
 
 		if i < server.buffer.size():
@@ -113,7 +118,7 @@ func _draw_buffer_slots(status: Dictionary) -> void:
 			var col      = TYPE_COLORS.get(pkt.type, Color.WHITE)
 			var progress = 1.0 - clamp(pkt.remaining_time / pkt.process_time, 0.0, 1.0)
 
-			draw_rect(rect, Color(col.r, col.g, col.b, 0.25), true, 0.0)
+			draw_rect(rect, Color(col.r, col.g, col.b, 0.25), true)
 
 			var bar_h   = 14.0
 			var bar_pos = Vector2(pos.x, pos.y + slot_h - bar_h)
@@ -160,3 +165,4 @@ func _draw_buffer_slots(status: Dictionary) -> void:
 				str(i + 1),
 				HORIZONTAL_ALIGNMENT_LEFT, -1, 26, Color(0.4, 0.4, 0.5, 0.6)
 			)
+		

@@ -156,5 +156,8 @@ func get_status() -> Dictionary:
 		"processing_power": processing_power,
 		"processed_packets": processed_packets,
 		"buffer_current": buffer.size(),
-		"buffer_max": buffer_size
+		"buffer_max": buffer_size,
 	}
+	
+func can_afford(cost: int) -> bool:
+	return processing_power >= cost

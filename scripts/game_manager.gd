@@ -32,19 +32,11 @@ func _process(delta: float) -> void:
 	_check_game_over()
 
 
-func start_game(
-	p1: Player,
-	p2: Player,
-	s1: Server,
-	s2: Server
-) -> void:
-
+func start_game(p1: Player, p2: Player, s1: Server, s2: Server) -> void:
 	players = [p1, p2]
 	servers = [s1, s2]
-
-	current_index = 0
+	current_index = randi() % 2 
 	turn = 1
-
 	_start_turn()
 
 
@@ -202,7 +194,16 @@ func _generate_packets() -> Array[Packet]:
 
 	return result
 
+func activate_card(card_id: int) -> void:
+	var player = current_player()
+	var server = current_server()
+	var enemy_server = servers[1 - current_index]
+	CardDatabase.apply_effect(card_id, player, server, enemy_server)
+	player.remove_card(card_id)
 
+func discard_card(card_id: int) -> void:
+	current_player().remove_card(card_id)
+	
 func current_player() -> Player:
 	return players[current_index]
 
