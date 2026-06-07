@@ -31,7 +31,6 @@ func _input(event: InputEvent) -> void:
 			get_viewport().set_input_as_handled()
 
 func _on_area_input(_viewport, event, _shape_idx) -> void:
-	print("area input - in_field: ", in_field, " face_down: ", face_down)
 	if in_field:
 		return
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
@@ -53,11 +52,15 @@ func _on_area_input(_viewport, event, _shape_idx) -> void:
 			_hide_details()
 
 func _show_field_menu() -> void:
-	if get_node_or_null("/root/FieldMenu"):
-		return
+	var existing = get_node_or_null("/root/FieldMenu")
+	if existing:
+		existing.queue_free()
 	var menu = PopupMenu.new()
 	menu.name = "FieldMenu"
-	menu.add_item("Ativar poder", 0)
+	var activate_cost = CardDatabase.get_card(card_id).get("activate_cost", 0)
+	var can_afford = GameManager.current_server().can_afford(activate_cost)
+	menu.add_item("Ativar poder (%d PP)" % activate_cost, 0)
+	menu.set_item_disabled(0, not can_afford)
 	menu.add_item("Descartar", 1)
 	get_tree().root.add_child(menu)
 	var screen_pos = get_viewport().get_canvas_transform() * global_position
@@ -66,10 +69,15 @@ func _show_field_menu() -> void:
 	menu.id_pressed.connect(func(id):
 		if id == 0:
 			emit_signal("card_activated", card_id)
+			_on_activated()
 		else:
 			emit_signal("card_discarded", card_id)
 			queue_free()
 		menu.queue_free()
+	)
+	menu.popup_hide.connect(func():
+		if is_instance_valid(menu):
+			menu.queue_free()
 	)
 
 func _show_details() -> void:
@@ -116,7 +124,12 @@ func setup(_card_id: int, _face_down: bool = false) -> void:
 			120.0 / card_image.texture.get_size().x,
 			160.0 / card_image.texture.get_size().y
 		)
-
+		
+func _on_activated() -> void:
+	var tween = create_tween()
+	tween.tween_property(self, "modulate", Color(2, 2, 2, 1), 0.1)
+	tween.tween_property(self, "modulate", Color(1, 1, 1, 1), 0.3)
+	
 func _check_drop() -> void:
 	var overlapping = area.get_overlapping_areas()
 	for other_area in overlapping:
@@ -132,21 +145,14 @@ func _check_drop() -> void:
 			if not GameManager.current_server().can_afford(cost):
 				global_position = original_position
 				return
-
 			field.occupy_slot(other_area)
-
-			# guarda tudo antes de mudar de pai
 			var slot_global_pos = other_area.global_position
 			var target_size = Vector2(field.SLOT_WIDTH, field.SLOT_HEIGHT)
-			# usa tamanho base da imagem sem scale aplicado
 			var base_size = card_image.texture.get_size() * card_image.scale
 			var new_scale = Vector2(target_size.x / base_size.x, target_size.y / base_size.y)
-
 			var old_parent = get_parent()
 			old_parent.remove_child(self)
 			field.add_child(self)
-
-			# reseta scale antes de aplicar o novo
 			scale = Vector2.ONE
 			global_position = slot_global_pos
 			scale = new_scale

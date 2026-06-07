@@ -23,8 +23,11 @@ func _ready() -> void:
 		p1.draw_card()
 		p2.draw_card()
 	GameManager.start_game(p1, p2, s1, s2)
-	_spawn_hand(p1, $hand1, false)
-	_spawn_hand(p2, $hand2, true)
+	
+	var is_p1_turn = GameManager.current_index == 0
+	_spawn_hand(p1, $hand1, not is_p1_turn)
+	_spawn_hand(p2, $hand2, is_p1_turn)
+	
 	panel.hide()
 	pass_button.pressed.connect(_on_pass_turn)
 	$panel_transition/pass_ready.pressed.connect(_on_ready_pressed)

@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://c1jax1ee8xmf0"]
+
+[ext_resource type="Script" uid="uid://c5luu7mqjlmdd" path="res://scenes/FloatingText.gd" id="1_iwtc3"]
+
+[node name="FloatingText" type="Node2D" unique_id=984637243]
+position = Vector2(791, 8)
+script = ExtResource("1_iwtc3")
+
+[node name="Label" type="Label" parent="." unique_id=554313537]
+offset_left = -41.5
+offset_right = 41.5
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 32
+text = "Teste"
+horizontal_alignment = 1
+metadata/_edit_use_anchors_ = true

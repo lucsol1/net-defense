@@ -1,10 +1,22 @@
 extends Node2D
 class_name ServerHUD
 
-@export var server: Server
+@export var server: Server :
+	set(value):
+		server = value
+		if server:
+			server.packet_added.connect(_on_packet_added)
+			server.server_damaged.connect(func(amount):
+				_spawn_text("-%d HP" % amount, Color(1.0, 0.2, 0.2))
+			)
+			server.throughput_gained.connect(func(amount):
+				_spawn_text("+%d PP" % amount, Color(0.2, 1.0, 0.5))
+			)
+
 @export var spawn_radius: float = 200.0
 
 const PACKET_PARTICLE = preload("res://scenes/PacketParticle.tscn")
+const FLOATING_TEXT = preload("res://scenes/FloatingText.tscn")
 
 const TYPE_COLORS = {
 	0: Color(0.2, 0.6, 1.0),
@@ -30,15 +42,20 @@ const SLOT_SIZE    = 80.0
 const SLOT_GAP     = 14.0
 
 func _ready() -> void:
-	if server:
-		server.packet_added.connect(_on_packet_added)
+	pass
+
+func _spawn_text(text: String, color: Color) -> void:
+	var t = FLOATING_TEXT.instantiate()
+	get_tree().root.call_deferred("add_child", t)
+	var offset = Vector2(randf_range(-100, 100), 0)
+	t.setup(text, color, global_position + offset)
 
 func _on_packet_added(packet: Packet) -> void:
 	_spawn_particle(packet)
 
 func _spawn_particle(packet: Packet) -> void:
 	var p = PACKET_PARTICLE.instantiate()
-	get_tree().root.add_child(p)
+	get_tree().root.call_deferred("add_child", p)
 	var angle = randf() * TAU
 	var from = global_position + Vector2(cos(angle), sin(angle)) * spawn_radius
 	p.setup(from, global_position, packet.type)
@@ -67,12 +84,12 @@ func _draw() -> void:
 		min(float(status["processed_packets"]) / 20.0, 1.0),
 		Color(0.2, 1.0, 0.5), Color(0.05, 0.25, 0.1),
 		"Processados: %d" % status["processed_packets"])
-	
+
 	_draw_bar(origin + Vector2(0, row * 4),
 		min(float(status["processing_power"]) / 10.0, 1.0),
 		Color(1.0, 0.85, 0.1), Color(0.25, 0.2, 0.0),
 		"Capacidade: %d" % status["processing_power"])
-		
+
 	if status["firewall"] > 0:
 		_draw_bar(origin + Vector2(0, row * 3),
 			min(float(status["firewall"]) / 5.0, 1.0),
@@ -128,7 +145,6 @@ func _draw_buffer_slots(status: Dictionary) -> void:
 			var border_w = 4.0 if pkt.is_malicious else 1.5
 			draw_rect(rect, col, false, border_w)
 
-			# label do tipo
 			draw_string(
 				ThemeDB.fallback_font,
 				pos + Vector2(slot_w / 2 - 28, slot_h / 2 + 14),
@@ -136,7 +152,6 @@ func _draw_buffer_slots(status: Dictionary) -> void:
 				HORIZONTAL_ALIGNMENT_LEFT, -1, 38, Color.WHITE
 			)
 
-			# tempo restante
 			draw_string(
 				ThemeDB.fallback_font,
 				pos + Vector2(4, 26),
@@ -165,4 +180,3 @@ func _draw_buffer_slots(status: Dictionary) -> void:
 				str(i + 1),
 				HORIZONTAL_ALIGNMENT_LEFT, -1, 26, Color(0.4, 0.4, 0.5, 0.6)
 			)
-		
